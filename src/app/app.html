@@ -1,0 +1,182 @@
+<div class="experience">
+  @if (introVisible()) {
+    <div
+      class="intro-screen"
+      [class.intro-screen--leaving]="introLeaving()"
+    >
+      <div class="intro-screen__glow" aria-hidden="true"></div>
+      <div class="intro-screen__content" role="status" aria-live="polite">
+        <span class="intro-screen__spark" aria-hidden="true"></span>
+        <p>Oi, <strong>Angelo!</strong></p>
+        <span class="intro-screen__line" aria-hidden="true"></span>
+      </div>
+    </div>
+  }
+
+  <div class="atmosphere" aria-hidden="true">
+    <div class="sky sky--blue"></div>
+    <div class="sky sky--pink"></div>
+    <div class="sky sky--ember"></div>
+    <div class="haze haze--one"></div>
+    <div class="haze haze--two"></div>
+    <div class="sun-bloom"></div>
+    <div class="grain"></div>
+    <div class="stars">
+      @for (star of stars; track $index) {
+        <i
+          class="star"
+          [style.left.%]="star.x"
+          [style.top.%]="star.y"
+          [style.width.px]="star.size"
+          [style.height.px]="star.size"
+          [style.animation-delay.s]="star.delay"
+          [style.--drift.px]="star.drift"
+        ></i>
+      }
+    </div>
+  </div>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__content" data-reveal>
+        <p class="eyebrow">Uma surpresa para você</p>
+        <h1 id="hero-title">
+          Tem muita gente querendo
+          <span>estar perto de você hoje.</span>
+        </h1>
+      </div>
+
+      <a class="scroll-cue" href="#descoberta" aria-label="Rolar para descobrir quem">
+        <span>descubra quem</span>
+        <svg viewBox="0 0 20 28" aria-hidden="true"><path d="M10 1v24m-7-7 7 7 7-7" /></svg>
+      </a>
+    </section>
+
+    <section id="descoberta" class="discovery" aria-label="O começo da surpresa">
+      <div class="discovery__line discovery__line--left" data-reveal>
+        <p>Nem todo mundo conseguiu<br>estar perto hoje.</p>
+      </div>
+      <div class="discovery__line discovery__line--right" data-reveal>
+        <p>Mas a distância não impediu<br>ninguém de aparecer.</p>
+      </div>
+      <div class="discovery__line discovery__line--center" data-reveal>
+        <p>Eles têm algumas coisas<br>para te dizer.</p>
+        <span class="tiny-label">escute com calma</span>
+      </div>
+    </section>
+
+    <div class="messages" aria-label="Mensagens de aniversário">
+      @for (moment of moments; track moment.id; let index = $index) {
+        <section
+          class="video-moment video-moment--{{ moment.align }}"
+          [class.video-moment--portrait]="moment.orientation === 'portrait'"
+          [class.video-moment--landscape]="moment.orientation === 'landscape'"
+          [attr.aria-label]="'Mensagem ' + (index + 1) + ' de ' + moments.length"
+        >
+          <div class="video-content" data-reveal>
+            <p class="eyebrow video-eyebrow">Uma mensagem de</p>
+
+            <div
+              class="video-frame video-frame--{{ moment.orientation }}"
+              [class.video-frame--ready]="moment.ready"
+            >
+              <video
+                #messageVideo
+                [src]="moment.src"
+                preload="metadata"
+                playsinline
+                (loadedmetadata)="onLoaded(index, $event)"
+                (error)="onVideoError(index)"
+                (timeupdate)="onTimeUpdate(index, $event)"
+                (ended)="onVideoEnded(index)"
+                [attr.aria-label]="'Mensagem de ' + moment.name"
+              ></video>
+
+              <div class="video-placeholder" [class.video-placeholder--hidden]="moment.ready">
+                <span class="placeholder-orbit" aria-hidden="true"></span>
+                <div>
+                  <p>uma mensagem está<br>esperando por você</p>
+                  <small>adicione {{ moment.id }}.mp4 para revelar</small>
+                </div>
+              </div>
+
+              <div class="video-shine" aria-hidden="true"></div>
+
+              <div class="video-controls glass">
+                <button
+                  type="button"
+                  class="control-button"
+                  (click)="toggleVideo(index)"
+                  [disabled]="moment.failed"
+                  [attr.aria-label]="moment.playing ? 'Pausar mensagem de ' + moment.name : 'Reproduzir mensagem de ' + moment.name"
+                >
+                  @if (moment.playing) {
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v12M16 6v12" /></svg>
+                  } @else {
+                    <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 9 6-9 6V6Z" /></svg>
+                  }
+                </button>
+
+                <input
+                  class="video-progress"
+                  type="range"
+                  min="0"
+                  [max]="moment.duration || 1"
+                  [value]="moment.currentTime"
+                  (input)="seekVideo(index, $event)"
+                  [disabled]="!moment.ready"
+                  [attr.aria-label]="'Progresso do vídeo de ' + moment.name"
+                >
+
+                <span class="video-time">{{ formatTime(moment.currentTime) }} / {{ formatTime(moment.duration) }}</span>
+              </div>
+            </div>
+
+            <div class="person">
+              <h2>{{ moment.name }}</h2>
+              <span>{{ moment.relation }}</span>
+            </div>
+          </div>
+        </section>
+
+        @if (moment.interlude) {
+          <section class="interlude" data-reveal>
+            <p>{{ moment.interlude }}</p>
+          </section>
+        }
+      }
+    </div>
+
+    <section class="climax-build" aria-label="O final da surpresa">
+      <p data-reveal>Mesmo de longe…</p>
+      <p data-reveal>todo mundo encontrou um jeito<br>de estar aqui.</p>
+      <p data-reveal>Porque hoje é o seu dia.</p>
+    </section>
+
+    <section class="birthday" aria-labelledby="birthday-title">
+      <div class="birthday__flare" aria-hidden="true"></div>
+      <div class="birthday__content" data-reveal>
+        <p class="eyebrow">de todos nós, para você</p>
+        <h2 id="birthday-title">
+          <span>Feliz</span>
+          <span>aniversário.</span>
+        </h2>
+        <span class="birthday__spark" aria-hidden="true"></span>
+      </div>
+    </section>
+
+    <section class="closing" aria-labelledby="closing-title">
+      <div class="closing__content" data-reveal>
+        <h2 id="closing-title">Você é<br>muito amado.</h2>
+        <p>
+          Que este novo ciclo venha cheio de coisas bonitas e de gente boa sempre por perto.
+        </p>
+      </div>
+
+      <footer>
+        <span>com carinho, de quem quis estar aqui com você hoje.</span>
+        <span>{{ currentYear }}</span>
+      </footer>
+    </section>
+  </main>
+</div>

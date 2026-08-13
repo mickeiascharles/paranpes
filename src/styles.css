@@ -1,0 +1,92 @@
+:root {
+  --journey: 0;
+  --warm-white: #fff8f3;
+  --deep-sky: #285b89;
+  --sunset-blue: #5484ac;
+  --lavender: #b9a4be;
+  --soft-pink: #dca0ae;
+  --coral: #f27661;
+  --orange: #ef6044;
+  --plum: #604953;
+  --charcoal: #29262d;
+  color-scheme: dark;
+  font-family: 'Instrument Sans', 'Segoe UI', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  background: var(--deep-sky);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--deep-sky);
+}
+
+html.intro-active,
+html.intro-active body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+html.intro-active body {
+  position: fixed;
+  inset: 0;
+  touch-action: none;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  color: var(--warm-white);
+  background: var(--deep-sky);
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+button,
+video {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--warm-white);
+  outline-offset: 5px;
+}
+
+::selection {
+  color: #352d36;
+  background: rgba(255, 248, 243, 0.82);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,11 @@
+/.angular/cache
+/.angular/prerender-root
+/dist
+/node_modules
+/coverage
+/public/videos/*-build/
+.DS_Store
+Thumbs.db
+*.log
+reference-thumb.png
+/source-videos/

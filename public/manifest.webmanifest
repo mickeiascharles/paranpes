@@ -1,0 +1,20 @@
+{
+  "id": "/paranpes/",
+  "name": "Uma surpresa para o Angelo",
+  "short_name": "Para o Angelo",
+  "start_url": "/paranpes/",
+  "scope": "/paranpes/",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#285b89",
+  "theme_color": "#315f87",
+  "icons": [
+    {
+      "src": "app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
